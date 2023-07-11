@@ -1,0 +1,8 @@
+time="2023-07-11T16:19:40+03:00" level=info msg="create router" func="#{frame.Function}()" file="app.go:23"
+time="2023-07-11T16:19:40+03:00" level=info msg="register user handler" func="#{frame.Function}()" file="app.go:26"
+time="2023-07-11T16:19:40+03:00" level=info msg="start router" func="#{frame.Function}()" file="app.go:30"
+time="2023-07-11T16:32:12+03:00" level=info msg="create router" func="#{frame.Function}()" file="app.go:23"
+time="2023-07-11T16:32:12+03:00" level=info msg="register user handler" func="#{frame.Function}()" file="app.go:26"
+time="2023-07-11T16:32:12+03:00" level=info msg="start router" func="#{frame.Function}()" file="app.go:30"
+time="2023-07-11T16:32:12+03:00" level=info msg="start application" func="#{frame.Function}()" file="app.go:36"
+time="2023-07-11T16:32:12+03:00" level=info msg="server is listening port :1234" func="#{frame.Function}()" file="app.go:48"
