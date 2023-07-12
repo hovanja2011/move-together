@@ -49,15 +49,15 @@ func init() {
 	l.Formatter = &logrus.TextFormatter{
 		CallerPrettyfier: func(frame *runtime.Frame) (function string, file string) {
 			filename := path.Base(frame.File)
-			return fmt.Sprintf("#{frame.Function}()"), fmt.Sprintf("%s:%d", filename, frame.Line)
+			return fmt.Sprintf("%s()", frame.Function), fmt.Sprintf("%s:%d", filename, frame.Line)
 		},
 		DisableColors: false,
 		FullTimestamp: true,
 	}
 
-	// err := os.Mkdir("logs", 0644)
+	_ = os.Mkdir("logs", 0644)
 	// if err != nil {
-	// 	panic(err)
+	// 	 fmt.Sprint("directory logs is already exist")
 	// }
 
 	allFile, err := os.OpenFile("logs/all.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0640)
