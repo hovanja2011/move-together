@@ -1,0 +1,8 @@
+time="2023-07-13T00:29:02+03:00" level=info msg="create router" func="#{frame.Function}()" file="app.go:27"
+time="2023-07-13T00:29:09+03:00" level=info msg="read application configuration" func="#{frame.Function}()" file="config.go:25"
+time="2023-07-13T00:29:09+03:00" level=info func="#{frame.Function}()" file="config.go:29"
+time="2023-07-13T00:29:09+03:00" level=fatal msg="open pkg/config.yml: The system cannot find the path specified." func="#{frame.Function}()" file="config.go:30"
+time="2023-07-13T00:35:47+03:00" level=info msg="create router" func="#{frame.Function}()" file="app.go:27"
+time="2023-07-13T00:35:48+03:00" level=info msg="read application configuration" func="#{frame.Function}()" file="config.go:25"
+time="2023-07-13T00:35:48+03:00" level=info func="#{frame.Function}()" file="config.go:29"
+time="2023-07-13T00:35:48+03:00" level=fatal msg="open pkg/config.yml: The system cannot find the path specified." func="#{frame.Function}()" file="config.go:30"
