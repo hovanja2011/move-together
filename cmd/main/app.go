@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net"
@@ -12,6 +13,8 @@ import (
 
 	"github.com/hovanja2011/move-together/internal/config"
 	"github.com/hovanja2011/move-together/internal/user"
+	"github.com/hovanja2011/move-together/internal/user/db"
+	"github.com/hovanja2011/move-together/pkg/client/mongodb"
 	"github.com/hovanja2011/move-together/pkg/logging"
 	"github.com/julienschmidt/httprouter"
 )
@@ -23,11 +26,30 @@ func IndexHandler(w http.ResponseWriter, r *http.Request, params httprouter.Para
 
 func main() {
 	logger := logging.GetLogger()
-
 	logger.Info("create router")
 	router := httprouter.New()
 
 	cfg := config.GetConfig()
+	cfgMongo := cfg.MongoDB
+	mongoDBClient, err := mongodb.NewClient(context.Background(), cfgMongo.Host, cfgMongo.Port, cfgMongo.Username,
+		cfgMongo.Password, cfgMongo.Database, cfgMongo.AuthDB)
+	if err != nil {
+		panic(err)
+	}
+
+	user1 := user.User{
+		ID:           "",
+		Email:        "user1@gmail.com",
+		Username:     "user1name",
+		PasswordHash: "12345",
+	}
+	storage := db.NewStorage(mongoDBClient, cfg.MongoDB.Collection, logger)
+	user1ID, err := storage.Create(context.Background(), user1)
+	if err != nil {
+		panic(err)
+	}
+	logger.Info(user1ID)
+
 	logger.Info("register user handler")
 	handler := user.NewHandler(logger)
 	handler.Register(router)
