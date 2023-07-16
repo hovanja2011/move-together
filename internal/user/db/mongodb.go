@@ -52,6 +52,24 @@ func (d *db) FindOne(ctx context.Context, id string) (u user.User, err error) {
 	}
 	return u, nil
 }
+func (d *db) FindAll(ctx context.Context) (u []user.User, err error) {
+
+	cursor, err := d.collection.Find(ctx, bson.M{})
+	if cursor.Err() != nil {
+		//TODO check behavior with empty collection
+		if errors.Is(cursor.Err(), mongo.ErrNoDocuments) {
+			// TODO ErrEntityNotFound
+			return u, fmt.Errorf("not found")
+		}
+		return u, fmt.Errorf("failed to Find all users rom DB  due to error %v", err)
+	}
+
+	if err = cursor.All(ctx, &u); err != nil {
+		return u, fmt.Errorf("failed to read all documents from cursor, error %v", err)
+	}
+
+	return u, nil
+}
 func (d *db) Update(ctx context.Context, user user.User) error {
 	objectID, err := primitive.ObjectIDFromHex(user.ID)
 	if err != nil {

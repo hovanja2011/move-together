@@ -55,3 +55,7 @@ time="2023-07-13T00:36:44+03:00" level=info msg="start application" func="#{fram
 time="2023-07-13T00:36:44+03:00" level=info msg="create socket" func="#{frame.Function}()" file="app.go:51"
 time="2023-07-13T00:36:44+03:00" level=info msg="listen unix socket" func="#{frame.Function}()" file="app.go:54"
 time="2023-07-13T00:36:44+03:00" level=info msg="server is listening unix socket C:\\Users\\user\\AppData\\Local\\Temp\\go-build3600491546\\b001\\exe/app.sock" func="#{frame.Function}()" file="app.go:56"
+time="2023-07-16T17:54:15+03:00" level=info msg="create router" func="main.main()" file="app.go:29"
+time="2023-07-16T17:54:15+03:00" level=info msg="read application configuration" func="github.com/hovanja2011/move-together/internal/config.GetConfig.func1()" file="config.go:34"
+time="2023-07-16T17:54:15+03:00" level=info func="github.com/hovanja2011/move-together/internal/config.GetConfig.func1()" file="config.go:38"
+time="2023-07-16T17:54:15+03:00" level=fatal msg="open ../../pkg/config.yml: The system cannot find the path specified." func="github.com/hovanja2011/move-together/internal/config.GetConfig.func1()" file="config.go:39"
