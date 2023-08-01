@@ -40,6 +40,9 @@ func main() {
 	storage := db.NewStorage(mongoDBClient, cfg.MongoDB.Collection, logger)
 
 	users, err := storage.FindAll(context.Background())
+	if err != nil {
+		panic(err)
+	}
 	fmt.Println(users)
 
 	user1 := user.User{
@@ -82,10 +85,10 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	_, err = storage.FindOne(context.Background(), user2ID)
-	if err != nil {
-		panic(err)
-	}
+	// _, err = storage.FindOne(context.Background(), user2ID)
+	// if err != nil {
+	// 	panic(err)
+	// }
 
 	logger.Info("register user handler")
 	handler := user.NewHandler(logger)
