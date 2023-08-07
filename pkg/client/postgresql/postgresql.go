@@ -7,10 +7,10 @@ import (
 	"time"
 
 	"github.com/hovanja2011/move-together/internal/config"
-	"github.com/hovanja2011/move-together/pkg/utils"
+	repeatable "github.com/hovanja2011/move-together/pkg/utils"
 	"github.com/jackc/pgconn"
-	"github.com/jackc/pgx/v5"
-	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/jackc/pgx/v4"
+	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 type Client interface {
@@ -24,11 +24,11 @@ func NewClient(ctx context.Context, maxAttempts int, sc config.StorageConfig) (p
 
 	dsn := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s", sc.Username, sc.Password, sc.Host, sc.Port, sc.Database)
 
-	err = utils.DoWithTries(func() error {
+	err = repeatable.DoWithTries(func() error {
 		ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 		defer cancel()
 
-		pool, err = pgxpool.New(ctx, dsn)
+		pool, err = pgxpool.Connect(ctx, dsn)
 		if err != nil {
 			fmt.Println("failed to connect postgresql")
 			return err

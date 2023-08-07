@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net"
@@ -11,7 +12,11 @@ import (
 	"time"
 
 	"github.com/hovanja2011/move-together/internal/config"
+	driver2 "github.com/hovanja2011/move-together/internal/driver"
+	driver "github.com/hovanja2011/move-together/internal/driver/db"
 	"github.com/hovanja2011/move-together/internal/user"
+
+	"github.com/hovanja2011/move-together/pkg/client/postgresql"
 	"github.com/hovanja2011/move-together/pkg/logging"
 	"github.com/julienschmidt/httprouter"
 )
@@ -28,6 +33,31 @@ func main() {
 
 	cfg := config.GetConfig()
 
+	postgreSQLClient, err := postgresql.NewClient(context.TODO(), 3, cfg.Storage)
+	if err != nil {
+		logger.Fatalf("%v", err)
+	}
+
+	repository := driver.NewRepository(postgreSQLClient, logger)
+
+	newDrv := driver2.Driver{
+		Name:  "Тихоедов Газель",
+		Score: 2,
+	}
+	err = repository.Create(context.TODO(), &newDrv)
+	if err != nil {
+		logger.Fatalf("%v", err)
+	}
+	logger.Infof("%v", newDrv)
+
+	all, err := repository.FindAll(context.TODO())
+	if err != nil {
+		logger.Fatalf("%v", err)
+	}
+
+	for _, drv := range all {
+		logger.Infof("%v", drv)
+	}
 	logger.Info("register user handler")
 	handler := user.NewHandler(logger)
 	handler.Register(router)
