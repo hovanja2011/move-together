@@ -40,24 +40,10 @@ func main() {
 
 	repository := driver.NewRepository(postgreSQLClient, logger)
 
-	newDrv := driver2.Driver{
-		Name:  "Тихоедов Газель",
-		Score: 2,
-	}
-	err = repository.Create(context.TODO(), &newDrv)
-	if err != nil {
-		logger.Fatalf("%v", err)
-	}
-	logger.Infof("%v", newDrv)
+	logger.Info("register driver handler")
+	driverHandler := driver2.NewHandler(repository, logger)
+	driverHandler.Register(router)
 
-	all, err := repository.FindAll(context.TODO())
-	if err != nil {
-		logger.Fatalf("%v", err)
-	}
-
-	for _, drv := range all {
-		logger.Infof("%v", drv)
-	}
 	logger.Info("register user handler")
 	handler := user.NewHandler(logger)
 	handler.Register(router)
