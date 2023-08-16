@@ -14,6 +14,10 @@ import (
 	"github.com/hovanja2011/move-together/internal/config"
 	driver2 "github.com/hovanja2011/move-together/internal/driver"
 	driver "github.com/hovanja2011/move-together/internal/driver/db"
+	passenger2 "github.com/hovanja2011/move-together/internal/passenger"
+	passenger "github.com/hovanja2011/move-together/internal/passenger/db"
+	ride2 "github.com/hovanja2011/move-together/internal/ride"
+	ride "github.com/hovanja2011/move-together/internal/ride/db"
 	"github.com/hovanja2011/move-together/internal/user"
 
 	"github.com/hovanja2011/move-together/pkg/client/postgresql"
@@ -38,11 +42,21 @@ func main() {
 		logger.Fatalf("%v", err)
 	}
 
-	repository := driver.NewRepository(postgreSQLClient, logger)
+	repositoryRide := ride.NewRepository(postgreSQLClient, logger)
+	repositoryPassenger := passenger.NewRepository(postgreSQLClient, logger)
+	repositoryDriver := driver.NewRepository(postgreSQLClient, logger)
 
 	logger.Info("register driver handler")
-	driverHandler := driver2.NewHandler(repository, logger)
+	driverHandler := driver2.NewHandler(repositoryDriver, logger)
 	driverHandler.Register(router)
+
+	logger.Info("register passenger handler")
+	passengerHandler := passenger2.NewHandler(repositoryPassenger, logger)
+	passengerHandler.Register(router)
+
+	logger.Info("register ride handler")
+	rideHandler := ride2.NewHandler(repositoryRide, logger)
+	rideHandler.Register(router)
 
 	logger.Info("register user handler")
 	handler := user.NewHandler(logger)
